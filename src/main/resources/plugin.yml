@@ -1,0 +1,45 @@
+name: GlobalCurrency
+main: com.i0dev.plugin.globalcurrency.GlobalCurrencyPlugin
+version: 2.0.2
+author: i01
+description: This plugin allows you to have a shop that uses the same currency across all servers its put on, it will share the database and balance will be consistent wherever the plugin is put.
+website: www.i0dev.com
+softdepend:
+  - PlaceHolderAPI
+depend:
+  - NBTAPI
+commands:
+  globalcurrency:
+    aliases:
+      - rubies
+    description: The main Global Currency command
+    usage: /globalcurrency [help/reload/version/add/remove/set/shop/balance/pay/checkBal]
+
+permissions:
+  globalcurrency.reload:
+    description: Use the /globalcurrency reload command.
+    default: op
+  globalcurrency.version:
+    description: Use the /globalcurrency version command.
+    default: op
+  globalcurrency.add:
+    description: Use the /globalcurrency add command.
+    default: op
+  globalcurrency.remove:
+    description: Use the /globalcurrency remove command.
+    default: op
+  globalcurrency.set:
+    description: Use the /globalcurrency set command.
+    default: op
+  globalcurrency.shop:
+    description: Use the /globalcurrency shop command.
+    default: not op
+  globalcurrency.balance:
+    description: Use the /globalcurrency balance command.
+    default: not op
+  globalcurrency.pay:
+    description: Use the /globalcurrency pay command.
+    default: op
+  globalcurrency.checkbal:
+    description: Use the /globalcurrency checkBal command.
+    default: op
