@@ -44,6 +44,3 @@ This is a PLUGIN, and it goes into your `/plugins/` folder on your server. It wi
 
 Join the [Support Server](https://discord.i0dev.com/) and feel free to ask any questions. You can talk to me directly
 too, My discord is i0#0001
-
-// Logs
-// GUI SHOP
