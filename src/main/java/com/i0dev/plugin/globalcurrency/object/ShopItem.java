@@ -8,6 +8,7 @@ import lombok.experimental.FieldDefaults;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 @Data
 @FieldDefaults(level = AccessLevel.PUBLIC)
@@ -41,7 +42,7 @@ public class ShopItem implements SerializableConfig {
 
     @Override
     public Map<String, Object> serialize() {
-        Map<String, Object> ret = new HashMap<>();
+        Map<String, Object> ret = new TreeMap<>();
         ret.put("id", id);
         ret.put("slot", slot);
         ret.put("material", material);

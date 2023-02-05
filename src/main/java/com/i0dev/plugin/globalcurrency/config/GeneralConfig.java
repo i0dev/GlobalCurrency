@@ -1,5 +1,6 @@
 package com.i0dev.plugin.globalcurrency.config;
 
+import com.i0dev.plugin.globalcurrency.object.Category;
 import com.i0dev.plugin.globalcurrency.object.ConfigItemStack;
 import com.i0dev.plugin.globalcurrency.object.ShopItem;
 import com.i0dev.plugin.globalcurrency.template.AbstractConfiguration;
@@ -35,18 +36,32 @@ public class GeneralConfig extends AbstractConfiguration {
 
         ).serialize());
         config.set("shopInventoryTitle", "&c&lRuby Shop");
+
         config.set("shopItems", Arrays.asList(new ShopItem("champions-lootbox",
-                                0,
-                                Material.ENDER_CHEST.toString(),
-                                0,
-                                1,
-                                Arrays.asList("&f", "&7Champions Lootbox", "&f", "&fCosts: &c10 rubies"),
-                                "&c&lChampions Lootbox",
-                                10,
-                                true,
-                                Arrays.asList("lootbox give {player} champions 1", "msg {player} you claimed champion lootbox")
-                        ).serialize()
-                )
+                        0,
+                        Material.ENDER_CHEST.toString(),
+                        0,
+                        1,
+                        Arrays.asList("&f", "&7Champions Lootbox", "&f", "&fCosts: &c10 rubies"),
+                        "&c&lChampions Lootbox",
+                        10,
+                        true,
+                        Arrays.asList("lootbox give {player} champions 1", "msg {player} you claimed champion lootbox")
+                ).serialize()
+        ));
+
+        config.set("categories", Arrays.asList(new Category("ranks",
+                        "&c&lRanks",
+                        5,
+                        Material.EMERALD.toString(),
+                        0,
+                        true,
+                        1,
+                        27,
+                        Arrays.asList("Ranks"),
+                        "Ranks",
+                        Arrays.asList("champions-lootbox")
+                ).serialize())
         );
     }
 }

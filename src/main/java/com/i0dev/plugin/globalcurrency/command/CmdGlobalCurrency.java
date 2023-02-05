@@ -1,6 +1,5 @@
 package com.i0dev.plugin.globalcurrency.command;
 
-import com.i0dev.plugin.globalcurrency.GlobalCurrencyPlugin;
 import com.i0dev.plugin.globalcurrency.manager.InventoryManager;
 import com.i0dev.plugin.globalcurrency.manager.LogManager;
 import com.i0dev.plugin.globalcurrency.manager.SQLManager;
@@ -171,7 +170,7 @@ public class CmdGlobalCurrency extends AbstractCommand {
             return;
         }
 
-        ((Player) sender).openInventory(InventoryManager.getInstance().getShopInventory());
+        ((Player) sender).openInventory(InventoryManager.getInstance().getCategoryInventory());
     }
 
     public void balance(CommandSender sender, String[] args) {
