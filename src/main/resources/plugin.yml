@@ -1,9 +1,8 @@
 name: ${project.name}
 version: ${project.version}
-main: com.i0dev.GlobalCurrencyPlugin
+main: com.i0dev.globalcurrency.GlobalCurrencyPlugin
 authors: [ i01 ]
 depend: [ MassiveCore ]
-softdepend: [ PlaceholderAPI ]
 description: ${project.description}
 api-version: 1.15
 permissions:
@@ -33,6 +32,7 @@ permissions:
     children:
       globalcurrency.basecommand: true
       globalcurrency.balance: true
+      globalcurrency.shop: true
   globalcurrency.kit.default:
     default: true
     children:
