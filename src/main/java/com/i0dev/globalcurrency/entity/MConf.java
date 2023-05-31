@@ -1,9 +1,6 @@
 package com.i0dev.globalcurrency.entity;
 
-import com.i0dev.globalcurrency.entity.object.DatabaseInformation;
-import com.i0dev.globalcurrency.entity.object.ShopCategory;
-import com.i0dev.globalcurrency.entity.object.ShopInventory;
-import com.i0dev.globalcurrency.entity.object.ShopItem;
+import com.i0dev.globalcurrency.entity.object.*;
 import com.massivecraft.massivecore.command.editor.annotation.EditorName;
 import com.massivecraft.massivecore.store.Entity;
 import com.massivecraft.massivecore.util.MUtil;
@@ -24,6 +21,7 @@ public class MConf extends Entity<MConf> {
     public DatabaseInformation databaseInformation = new DatabaseInformation();
     public boolean closeBuyWindowOnPurchase = false;
     public ShopInventory shopInventory = new ShopInventory();
+    public ConfirmationInventory confirmationInventory = new ConfirmationInventory();
 
     public List<ShopItem> shopItems = MUtil.list(
             new ShopItem(

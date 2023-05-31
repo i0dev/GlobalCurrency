@@ -18,7 +18,6 @@ public class ActionChoseCategory extends ChestActionAbstract {
     @Override
     @SneakyThrows
     public boolean onClick(InventoryClickEvent event, Player player) {
-        if (MConf.get().closeBuyWindowOnPurchase) player.closeInventory();
         player.openInventory(EngineInventory.get().getCategoryInventoryById(categoryId));
         return false;
     }

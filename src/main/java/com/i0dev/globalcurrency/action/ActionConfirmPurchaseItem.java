@@ -2,6 +2,7 @@ package com.i0dev.globalcurrency.action;
 
 import com.i0dev.globalcurrency.engine.EngineLog;
 import com.i0dev.globalcurrency.engine.EngineSQL;
+import com.i0dev.globalcurrency.entity.MConf;
 import com.i0dev.globalcurrency.entity.MLang;
 import com.i0dev.globalcurrency.entity.object.ShopItem;
 import com.i0dev.globalcurrency.util.Pair;
@@ -11,18 +12,18 @@ import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
-public class ActionSelectItem extends ChestActionAbstract {
+public class ActionConfirmPurchaseItem extends ChestActionAbstract {
 
     private ShopItem shopItem;
 
-    public ActionSelectItem(ShopItem shopItem) {
+    public ActionConfirmPurchaseItem(ShopItem shopItem) {
         this.shopItem = shopItem;
     }
 
     @Override
     @SneakyThrows
     public boolean onClick(InventoryClickEvent event, Player player) {
-        player.closeInventory();
+        if (MConf.get().closeBuyWindowOnPurchase) player.closeInventory();
 
         long balance = EngineSQL.get().getAmount(player.getUniqueId());
         if (balance < shopItem.getPrice()) {
