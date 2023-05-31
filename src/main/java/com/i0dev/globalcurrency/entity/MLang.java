@@ -20,6 +20,8 @@ public class MLang extends Entity<MLang> {
     public String playerBalance = "%prefix% &a%player%'s balance is &f%amount%";
     public String notEnoughMoney = "%prefix% &cYou do not have enough money to purchase this, your balance is &f%amount%";
     public String youBought = "%prefix% &aYou have purchased %item% for &f%amount% medals";
+    public String canOnlyUsePositiveNumbers = "%prefix% &cYou can only use positive numbers";
+    public String cantRemoveMoreThanPlayerHas = "%prefix% &cYou can't remove more than the player has, they only have &f%amount%";
 
     @Override
     public MLang load(MLang that) {

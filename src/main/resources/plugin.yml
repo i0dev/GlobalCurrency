@@ -1,6 +1,7 @@
 name: ${project.name}
 version: ${project.version}
 main: com.i0dev.globalcurrency.GlobalCurrencyPlugin
+website: ${project.url}
 authors: [ i01 ]
 depend: [ MassiveCore ]
 description: ${project.description}

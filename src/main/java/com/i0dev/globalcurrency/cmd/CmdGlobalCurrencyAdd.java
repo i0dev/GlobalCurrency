@@ -27,6 +27,11 @@ public class CmdGlobalCurrencyAdd extends GlobalCurrencyCommand {
         Player player = this.readArgAt(0);
         Integer amount = this.readArgAt(1);
 
+        if (amount <= 0) {
+            msg(Utils.prefixAndColor(MLang.get().canOnlyUsePositiveNumbers));
+            return;
+        }
+
         EngineSQL.get().addAmount(player.getUniqueId(), amount);
 
         msg(Utils.prefixAndColor(MLang.get().addedToPlayer,

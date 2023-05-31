@@ -27,6 +27,20 @@ public class CmdGlobalCurrencyRemove extends GlobalCurrencyCommand {
         Player player = this.readArgAt(0);
         Integer amount = this.readArgAt(1);
 
+        if (amount <= 0) {
+            msg(Utils.prefixAndColor(MLang.get().canOnlyUsePositiveNumbers));
+            return;
+        }
+        long currentBalance = EngineSQL.get().getAmount(player.getUniqueId());
+        long newAmount = currentBalance - amount;
+        if (newAmount < 0) {
+            msg(Utils.prefixAndColor(MLang.get().cantRemoveMoreThanPlayerHas,
+                            new Pair<>("%amount%", String.valueOf(currentBalance))
+                    )
+            );
+            return;
+        }
+
         EngineSQL.get().removeAmount(player.getUniqueId(), amount);
 
         msg(Utils.prefixAndColor(MLang.get().removedFromPlayer,
