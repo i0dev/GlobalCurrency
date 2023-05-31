@@ -22,7 +22,7 @@ public class MConf extends Entity<MConf> {
 
     public List<String> aliasesGlobalCurrency = MUtil.list("medals", "globalcurrency");
     public DatabaseInformation databaseInformation = new DatabaseInformation();
-
+    public boolean closeBuyWindowOnPurchase = false;
     public ShopInventory shopInventory = new ShopInventory();
 
     public List<ShopItem> shopItems = MUtil.list(
