@@ -1,0 +1,19 @@
+#
+#  This file contains all the messages that are used in the plugin
+#
+reloadedConfig: '&aReloaded config!'
+noPermission: '&cYou do not have permission to use this command!'
+cantFindPlayer: '&cCould not find player!'
+invalidNumber: '&cThe number &f{num} &cis invalid! Try again.'
+cantUseAsConsole: '&cYou can not use this command as console!'
+
+helpPageTitle: '&8_______&r&8[&r &c&lFramework &8]_______'
+helpPageFormat: '&8- &c/{command}'
+
+addedToPlayer: '&7You have added &f{amount} &7rubies to &c{player}'
+removedFromPlayer: '&7You have removed &f{amount} &7rubies from &c{player}'
+setPlayer: "&7You have set &c{player}'s &7balance to &f{amount}"
+yourBalance: '&7Your balance is &f{amount} &7rubies.'
+playersBalance: "&c{player}'s &7balance is &f{amount} &7rubies."
+insufficientBalance: '&cInsufficient Balance. You only have &f{amount} rubies'
+youBought: '&7You have purchased {item} &7for &f{cost} rubies'

@@ -1,0 +1,63 @@
+#
+# Primary configuration file for Global Currency.
+#
+
+# MySQL Database login information
+database:
+  address: localhost
+  port: 0
+  database: globalCurrency
+  username: username
+  password: password
+
+shop:
+  inventory:
+    size: 27
+    title: "&c&lMedal Shop"
+    border_glass:
+      material: BLACK_STAINED_GLASS_PANE
+      display_name: '&f'
+      lore: [ ]
+      glow: true
+  items:
+    diamond:
+      id: diamond
+      slot: 0
+      material: DIAMOND
+      amount: 1
+      display_name: "&b&lDiamond"
+      lore:
+        - "&7Price: &f1000"
+        - "&7Description: &fA diamond."
+      price: 1000
+      glow: true
+      commands:
+        - "give {player} diamond 1"
+    gold_ingot:
+      id: gold_ingot
+      slot: 1
+      material: GOLD_INGOT
+      amount: 1
+      display_name: "&6&lGold Ingot"
+      lore:
+        - "&7Price: &f500"
+        - "&7Description: &fA gold ingot."
+      price: 500
+      glow: true
+      commands:
+        - "give {player} gold_ingot 1"
+
+  categories:
+    blocks:
+      inventory_title: "&c&lMedal Shop - Blocks"
+      inventory_size: 27
+      slot: 5
+      material: STONE
+      glow: trueetter
+      amount: 1
+      display_name: "&c&lBlocks"
+      lore:
+        - "&7Blocks for building."
+      items:
+        - diamond
+        - gold_ingot
