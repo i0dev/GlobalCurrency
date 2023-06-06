@@ -9,6 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class ShopCategory {
+    public int backButtonSlot;
     public String id;
     public String inventoryTitle;
     public short inventorySize;

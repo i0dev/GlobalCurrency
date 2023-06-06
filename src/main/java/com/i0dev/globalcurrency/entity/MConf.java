@@ -22,6 +22,7 @@ public class MConf extends Entity<MConf> {
     public boolean closeBuyWindowOnPurchase = false;
     public ShopInventory shopInventory = new ShopInventory();
     public ConfirmationInventory confirmationInventory = new ConfirmationInventory();
+    public BackToCategoriesItem backToCategoriesItem = new BackToCategoriesItem();
 
     public List<ShopItem> shopItems = MUtil.list(
             new ShopItem(
@@ -50,6 +51,7 @@ public class MConf extends Entity<MConf> {
 
     public List<ShopCategory> shopCategories = MUtil.list(
             new ShopCategory(
+                    22,
                     "ores",
                     "&c&lMedal Shop - Ores",
                     (short) 27,
