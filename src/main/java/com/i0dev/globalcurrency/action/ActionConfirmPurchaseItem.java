@@ -1,5 +1,6 @@
 package com.i0dev.globalcurrency.action;
 
+import com.i0dev.globalcurrency.engine.EngineInventory;
 import com.i0dev.globalcurrency.engine.EngineLog;
 import com.i0dev.globalcurrency.engine.EngineSQL;
 import com.i0dev.globalcurrency.entity.MConf;
@@ -15,9 +16,11 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 public class ActionConfirmPurchaseItem extends ChestActionAbstract {
 
     private ShopItem shopItem;
+    private String categoryId;
 
-    public ActionConfirmPurchaseItem(ShopItem shopItem) {
+    public ActionConfirmPurchaseItem(ShopItem shopItem, String categoryId) {
         this.shopItem = shopItem;
+        this.categoryId = categoryId;
     }
 
     @Override
@@ -47,8 +50,10 @@ public class ActionConfirmPurchaseItem extends ChestActionAbstract {
                 )
         );
 
-
         EngineLog.get().log(player.getName() + " has purchased " + shopItem.getId() + " for " + shopItem.price + " currency");
+
+        if (!MConf.get().closeBuyWindowOnPurchase)
+            player.openInventory(EngineInventory.get().getCategoryInventoryById(categoryId));
 
         return false;
     }

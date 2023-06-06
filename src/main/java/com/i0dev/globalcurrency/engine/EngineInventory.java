@@ -103,7 +103,7 @@ public class EngineInventory extends Engine {
                 .lore(confirmLore)
                 .enchantment(cnf.confirmItemGlow ? Glow.getGlow() : null)
         );
-        chestGui.setAction(cnf.confirmItemSlot, new ActionConfirmPurchaseItem(getItemById(itemId)));
+        chestGui.setAction(cnf.confirmItemSlot, new ActionConfirmPurchaseItem(getItemById(itemId), categoryId));
 
         chestGui.getInventory().setItem(cnf.cancelItemSlot, new ItemBuilder(cnf.cancelItemMaterial)
                 .amount(1)
@@ -154,6 +154,18 @@ public class EngineInventory extends Engine {
                 return false;
             });
         }
+
+        chestGui.getInventory().setItem(category.backButtonSlot, new ItemBuilder(MConf.get().backToCategoriesItem.material)
+                .amount(1)
+                .name(MConf.get().backToCategoriesItem.displayName)
+                .lore(MConf.get().backToCategoriesItem.lore)
+                .enchantment(MConf.get().backToCategoriesItem.glow ? Glow.getGlow() : null)
+        );
+
+        chestGui.setAction(category.backButtonSlot, inventoryClickEvent -> {
+            inventoryClickEvent.getWhoClicked().openInventory(getMainMenu());
+            return true;
+        });
 
         return chestGui.getInventory();
     }
