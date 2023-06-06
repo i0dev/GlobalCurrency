@@ -16,6 +16,7 @@ import org.bukkit.entity.Player;
 public class CmdGlobalCurrencyAdd extends GlobalCurrencyCommand {
 
     public CmdGlobalCurrencyAdd() {
+        this.addAliases("give");
         this.addParameter(TypePlayer.get(), "player");
         this.addParameter(TypeInteger.get(), "amount");
         this.addRequirements(RequirementHasPerm.get(Perm.ADD));
