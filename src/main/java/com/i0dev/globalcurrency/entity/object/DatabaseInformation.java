@@ -9,4 +9,5 @@ public class DatabaseInformation {
     String database = "globalcurrency";
     String username = "root";
     String password = "password";
+    long reconnectToDatabaseEveryMillis = 60 * 60 * 1000; // 1 hour
 }

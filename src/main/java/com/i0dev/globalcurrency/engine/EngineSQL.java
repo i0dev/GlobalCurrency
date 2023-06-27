@@ -25,6 +25,7 @@ public class EngineSQL extends Engine {
         DatabaseInformation info = MConf.get().databaseInformation;
         try {
             connection = DriverManager.getConnection("jdbc:mysql://" + info.getAddress() + ":" + info.getPort() + "/" + info.getDatabase(), info.getUsername(), info.getPassword());
+            lastConnectionTime = System.currentTimeMillis();
             return true;
         } catch (Exception e) {
             return false;
@@ -41,14 +42,34 @@ public class EngineSQL extends Engine {
         connection.createStatement().execute(SQL);
     }
 
+    private long lastConnectionTime = 0;
+
+    private void reconnect() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connect();
+                return;
+            }
+        } catch (Exception ignored) {
+            connect();
+            return;
+        }
+
+        long reconnectToDatabaseEveryMillis = MConf.get().databaseInformation.getReconnectToDatabaseEveryMillis();
+        if (System.currentTimeMillis() - lastConnectionTime < reconnectToDatabaseEveryMillis) return;
+        lastConnectionTime = System.currentTimeMillis();
+    }
+
     @SneakyThrows
     public boolean isInTable(UUID uuid) {
+        reconnect();
         ResultSet result = connection.createStatement().executeQuery("SELECT * FROM currency WHERE uuid='" + uuid + "'");
         return result.next();
     }
 
     @SneakyThrows
     public long getAmount(UUID uuid) {
+        reconnect();
         ResultSet result = connection.createStatement().executeQuery("SELECT * FROM currency WHERE uuid='" + uuid + "'");
         if (!result.next()) return 0;
         return result.getLong("amount");
@@ -56,6 +77,7 @@ public class EngineSQL extends Engine {
 
     @SneakyThrows
     public void addAmount(UUID uuid, long amount) {
+        reconnect();
         long currentBalance = getAmount(uuid);
         long newBalance = currentBalance + amount;
         setAmount(uuid, newBalance);
@@ -63,6 +85,7 @@ public class EngineSQL extends Engine {
 
     @SneakyThrows
     public void removeAmount(UUID uuid, long amount) {
+        reconnect();
         long currentBalance = getAmount(uuid);
         long newBalance = currentBalance - amount;
         setAmount(uuid, newBalance);
@@ -70,6 +93,7 @@ public class EngineSQL extends Engine {
 
     @SneakyThrows
     public void setAmount(UUID uuid, long amount) {
+        reconnect();
         if (!isInTable(uuid))
             connection.createStatement().execute("INSERT INTO currency VALUES ('" + uuid + "', " + amount + ")");
         else
