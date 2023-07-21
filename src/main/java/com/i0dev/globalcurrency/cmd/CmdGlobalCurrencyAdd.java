@@ -42,6 +42,7 @@ public class CmdGlobalCurrencyAdd extends GlobalCurrencyCommand {
         );
 
         EngineLog.get().log(sender.getName() + " has added " + amount + " currency to " + player.getName());
+
     }
 
 

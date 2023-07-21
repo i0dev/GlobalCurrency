@@ -33,12 +33,22 @@ public class EngineSQL extends Engine {
     }
 
     @SneakyThrows
-    public void makeTable() {
+    public void makeTables() {
         String SQL = "CREATE TABLE IF NOT EXISTS currency ("
                 + "`uuid`   VARCHAR(36) NOT NULL,"
                 + "`amount` BIGINT      NOT NULL,"
                 + "PRIMARY KEY (`uuid`)"
                 + ")";
+        connection.createStatement().execute(SQL);
+        SQL = "CREATE TABLE IF NOT EXISTS logs (" +
+                "`id` INT NOT NULL AUTO_INCREMENT," +
+                "`uuid` VARCHAR(36) NOT NULL," +
+                "`time` BIGINT NOT NULL," +
+                "`item-id` VARCHAR(36) NOT NULL," +
+                "`server-id` VARCHAR(36) NOT NULL," +
+                "`price` BIGINT NOT NULL," +
+                "PRIMARY KEY (`id`)" +
+                ")";
         connection.createStatement().execute(SQL);
     }
 
@@ -98,6 +108,24 @@ public class EngineSQL extends Engine {
             connection.createStatement().execute("INSERT INTO currency VALUES ('" + uuid + "', " + amount + ")");
         else
             connection.createStatement().execute("UPDATE currency SET amount =" + amount + " WHERE uuid='" + uuid + "'");
+    }
+
+    @SneakyThrows
+    public void logPurchase(UUID uuid, String itemID, long price) {
+        reconnect();
+        long time = System.currentTimeMillis();
+        String serverID = MConf.get().serverID;
+        connection.createStatement().execute("INSERT INTO logs (uuid, time, `item-id`, `server-id`, price) VALUES ('" + uuid + "', " + time + ", '" + itemID + "', '" + serverID + "', " + price + ")");
+    }
+
+    @SneakyThrows
+    public int getPurchases(UUID uuid, String itemID, long millisAgoToCheck) {
+        reconnect();
+        long time = System.currentTimeMillis() - millisAgoToCheck;
+        ResultSet result = connection.createStatement().executeQuery("SELECT * FROM logs WHERE uuid='" + uuid + "' AND `item-id`='" + itemID + "' AND time > " + time);
+        int purchases = 0;
+        while (result.next()) purchases++;
+        return purchases;
     }
 
 }

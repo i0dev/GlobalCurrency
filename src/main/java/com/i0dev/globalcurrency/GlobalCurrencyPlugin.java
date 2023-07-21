@@ -2,6 +2,8 @@ package com.i0dev.globalcurrency;
 
 import com.i0dev.globalcurrency.engine.EngineLog;
 import com.i0dev.globalcurrency.engine.EngineSQL;
+import com.i0dev.globalcurrency.entity.Category;
+import com.i0dev.globalcurrency.entity.CategoryColl;
 import com.i0dev.globalcurrency.entity.MConfColl;
 import com.i0dev.globalcurrency.entity.MLangColl;
 import com.massivecraft.massivecore.MassivePlugin;
@@ -31,16 +33,23 @@ public class GlobalCurrencyPlugin extends MassivePlugin {
             this.setEnabled(false);
             return;
         }
-        EngineSQL.get().makeTable();
+        EngineSQL.get().makeTables();
         EngineLog.get().initialize();
     }
 
 
     @Override
+    public void onEnablePost() {
+        super.onEnablePost();
+        Category.example();
+    }
+
+    @Override
     public List<Class<?>> getClassesActiveColls() {
         return new MassiveList<>(
                 MConfColl.class,
-                MLangColl.class
+                MLangColl.class,
+                CategoryColl.class
         );
     }
 

@@ -1,27 +1,24 @@
 package com.i0dev.globalcurrency.engine;
 
-import com.i0dev.globalcurrency.GlobalCurrencyPlugin;
 import com.i0dev.globalcurrency.action.ActionChoseCategory;
 import com.i0dev.globalcurrency.action.ActionConfirmPurchaseItem;
+import com.i0dev.globalcurrency.entity.Category;
+import com.i0dev.globalcurrency.entity.CategoryColl;
 import com.i0dev.globalcurrency.entity.MConf;
 import com.i0dev.globalcurrency.entity.object.ConfirmationInventory;
-import com.i0dev.globalcurrency.entity.object.ShopCategory;
 import com.i0dev.globalcurrency.entity.object.ShopInventory;
 import com.i0dev.globalcurrency.entity.object.ShopItem;
 import com.i0dev.globalcurrency.util.Glow;
 import com.i0dev.globalcurrency.util.ItemBuilder;
 import com.massivecraft.massivecore.Engine;
-import com.massivecraft.massivecore.chestgui.ChestAction;
 import com.massivecraft.massivecore.chestgui.ChestGui;
 import com.massivecraft.massivecore.util.Txt;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.IntStream;
 
 public class EngineInventory extends Engine {
@@ -66,7 +63,7 @@ public class EngineInventory extends Engine {
                 .enchantment(invConf.informationItemGlow ? Glow.getGlow() : null)
         );
 
-        for (ShopCategory category : MConf.get().shopCategories) {
+        for (Category category : CategoryColl.get().getAll()) {
             chestGui.getInventory().setItem(category.slot, new ItemBuilder(category.material)
                     .amount(1)
                     .name(category.displayName)
@@ -82,7 +79,8 @@ public class EngineInventory extends Engine {
 
     public Inventory getConfirmationGUI(String categoryId, String itemId) {
         ConfirmationInventory cnf = MConf.get().confirmationInventory;
-        ShopItem item = getItemById(itemId);
+        Category category = Category.get(categoryId);
+        ShopItem item = category.getItemById(itemId);
         ChestGui chestGui = getBasicChestGui(cnf.title.replace("%item_name%", item.displayName), cnf.size);
 
         chestGui.getInventory().setItem(cnf.itemSlot, new ItemBuilder(item.material)
@@ -103,7 +101,7 @@ public class EngineInventory extends Engine {
                 .lore(confirmLore)
                 .enchantment(cnf.confirmItemGlow ? Glow.getGlow() : null)
         );
-        chestGui.setAction(cnf.confirmItemSlot, new ActionConfirmPurchaseItem(getItemById(itemId), categoryId));
+        chestGui.setAction(cnf.confirmItemSlot, new ActionConfirmPurchaseItem(item, categoryId));
 
         chestGui.getInventory().setItem(cnf.cancelItemSlot, new ItemBuilder(cnf.cancelItemMaterial)
                 .amount(1)
@@ -119,17 +117,10 @@ public class EngineInventory extends Engine {
         return chestGui.getInventory();
     }
 
-    private ShopCategory getCategoryById(String categoryId) {
-        return MConf.get().shopCategories.stream().filter(shopCategory -> shopCategory.getId().equals(categoryId)).findFirst().orElse(null);
-    }
-
-    private ShopItem getItemById(String itemId) {
-        return MConf.get().shopItems.stream().filter(shopItem -> shopItem.getId().equals(itemId)).findFirst().orElse(null);
-    }
 
     @SneakyThrows
     public Inventory getCategoryInventoryById(String categoryId) {
-        ShopCategory category = getCategoryById(categoryId);
+        Category category = Category.get(categoryId);
         if (category == null) {
             return null;
         }
@@ -137,12 +128,7 @@ public class EngineInventory extends Engine {
         ChestGui chestGui = getBasicChestGui(category.displayName, category.inventorySize);
 
 
-        for (String itemString : category.getItems()) {
-            ShopItem item = getItemById(itemString);
-            if (item == null) {
-                GlobalCurrencyPlugin.get().log(Level.SEVERE, "Item " + itemString + " not found while opening category " + category.getId() + " inventory");
-                continue;
-            }
+        for (ShopItem item : category.getItems()) {
             chestGui.getInventory().setItem(item.slot, new ItemBuilder(item.material)
                     .amount(1)
                     .name(item.displayName)

@@ -19,6 +19,8 @@ public class MLang extends Entity<MLang> {
     public String yourBalance = "%prefix% &aYour balance is &f%amount%";
     public String playerBalance = "%prefix% &a%player%'s balance is &f%amount%";
     public String notEnoughMoney = "%prefix% &cYou do not have enough money to purchase this, your balance is &f%amount%";
+    public String noPermissionToBuy = "%prefix% &cYou do not have permission to buy this";
+    public String limitPerPlayerReached = "%prefix% &cYou have reached the limit of &f%limit% &cfor this item";
     public String youBought = "%prefix% &aYou have purchased %item% for &f%amount% medals";
     public String canOnlyUsePositiveNumbers = "%prefix% &cYou can only use positive numbers";
     public String cantRemoveMoreThanPlayerHas = "%prefix% &cYou can't remove more than the player has, they only have &f%amount%";

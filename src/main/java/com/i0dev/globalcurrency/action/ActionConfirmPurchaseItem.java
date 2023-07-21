@@ -28,6 +28,7 @@ public class ActionConfirmPurchaseItem extends ChestActionAbstract {
     public boolean onClick(InventoryClickEvent event, Player player) {
         if (MConf.get().closeBuyWindowOnPurchase) player.closeInventory();
 
+        // Balance Check
         long balance = EngineSQL.get().getAmount(player.getUniqueId());
         if (balance < shopItem.getPrice()) {
             player.sendMessage(Utils.prefixAndColor(MLang.get().notEnoughMoney,
@@ -36,6 +37,22 @@ public class ActionConfirmPurchaseItem extends ChestActionAbstract {
             );
             return false;
         }
+
+
+        // Perm Check
+        if (!shopItem.getRequiredPermissionToBuy().equals("") && !player.hasPermission(shopItem.getRequiredPermissionToBuy())) {
+            player.sendMessage(Utils.prefixAndColor(MLang.get().noPermissionToBuy));
+            return false;
+        }
+
+        // Limit Per Player Check
+        if (shopItem.getLimitPerPlayer() != -1 && EngineSQL.get().getPurchases(player.getUniqueId(), shopItem.getId(), shopItem.getLimitCheckBackMillis()) >= shopItem.getLimitPerPlayer()) {
+            player.sendMessage(Utils.prefixAndColor(MLang.get().limitPerPlayerReached,
+                    new Pair<>("%limit%", String.valueOf(shopItem.getLimitPerPlayer()))
+            ));
+            return false;
+        }
+
 
         EngineSQL.get().removeAmount(player.getUniqueId(), shopItem.getPrice());
 
@@ -50,7 +67,8 @@ public class ActionConfirmPurchaseItem extends ChestActionAbstract {
                 )
         );
 
-        EngineLog.get().log(player.getName() + " has purchased " + shopItem.getId() + " for " + shopItem.price + " currency");
+        EngineLog.get().log(player.getName() + " has purchased " + shopItem.getId() + " for " + shopItem.price + " currency, on the server " + MConf.get().serverID + ".");
+        EngineSQL.get().logPurchase(player.getUniqueId(), shopItem.getId(), shopItem.getPrice());
 
         if (!MConf.get().closeBuyWindowOnPurchase)
             player.openInventory(EngineInventory.get().getCategoryInventoryById(categoryId));

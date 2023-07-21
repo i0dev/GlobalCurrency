@@ -19,4 +19,7 @@ public class ShopItem {
     public List<String> lore;
     public boolean glow;
     public List<String> commands;
+    public String requiredPermissionToBuy;
+    public int limitPerPlayer;
+    public long limitCheckBackMillis;
 }
