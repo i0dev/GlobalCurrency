@@ -13,6 +13,8 @@ import lombok.SneakyThrows;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
+import java.util.List;
+
 public class ActionConfirmPurchaseItem extends ChestActionAbstract {
 
     private ShopItem shopItem;
@@ -45,7 +47,7 @@ public class ActionConfirmPurchaseItem extends ChestActionAbstract {
             return false;
         }
 
-        if (shopItem.getPreventBuyIfHasPermission() != null && !shopItem.getPreventBuyIfHasPermission().equals("") && player.hasPermission(shopItem.getPreventBuyIfHasPermission())) {
+        if (shopItem.getPreventBuyIfHasPermission() != null && hasAtLeastOnePermission(player, shopItem.getPreventBuyIfHasPermission())) {
             player.sendMessage(Utils.prefixAndColor(MLang.get().alreadyHasPermission));
             return false;
         }
@@ -80,5 +82,15 @@ public class ActionConfirmPurchaseItem extends ChestActionAbstract {
 
         return false;
     }
+
+
+    // Return true if the player has at least one permission in the list
+    public boolean hasAtLeastOnePermission(Player player, List<String> permissions) {
+        for (String permission : permissions) {
+            if (player.hasPermission(permission)) return true;
+        }
+        return false;
+    }
+
 
 }
