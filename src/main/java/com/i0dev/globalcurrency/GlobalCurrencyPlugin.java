@@ -2,12 +2,11 @@ package com.i0dev.globalcurrency;
 
 import com.i0dev.globalcurrency.engine.EngineLog;
 import com.i0dev.globalcurrency.engine.EngineSQL;
-import com.i0dev.globalcurrency.entity.Category;
-import com.i0dev.globalcurrency.entity.CategoryColl;
-import com.i0dev.globalcurrency.entity.MConfColl;
-import com.i0dev.globalcurrency.entity.MLangColl;
+import com.i0dev.globalcurrency.entity.*;
+import com.i0dev.globalcurrency.integration.PlaceholderAPI;
 import com.massivecraft.massivecore.MassivePlugin;
 import com.massivecraft.massivecore.collections.MassiveList;
+import org.bukkit.Bukkit;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -39,9 +38,20 @@ public class GlobalCurrencyPlugin extends MassivePlugin {
 
 
     @Override
+    public void onEnable() {
+        super.onEnable();
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
+            new PlaceholderAPI(this).register();
+        } else {
+            getLogger().warning("Could not find PlaceholderAPI! This plugin is required.");
+        }
+    }
+
+    @Override
     public void onEnablePost() {
         super.onEnablePost();
-        Category.example();
+        if (MConf.get().makeExample)
+            Category.example();
     }
 
     @Override

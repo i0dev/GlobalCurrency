@@ -45,6 +45,11 @@ public class ActionConfirmPurchaseItem extends ChestActionAbstract {
             return false;
         }
 
+        if (shopItem.getPreventBuyIfHasPermission() != null && !shopItem.getPreventBuyIfHasPermission().equals("") && player.hasPermission(shopItem.getPreventBuyIfHasPermission())) {
+            player.sendMessage(Utils.prefixAndColor(MLang.get().alreadyHasPermission));
+            return false;
+        }
+
         // Limit Per Player Check
         if (shopItem.getLimitPerPlayer() != -1 && EngineSQL.get().getPurchases(player.getUniqueId(), shopItem.getId(), shopItem.getLimitCheckBackMillis()) >= shopItem.getLimitPerPlayer()) {
             player.sendMessage(Utils.prefixAndColor(MLang.get().limitPerPlayerReached,

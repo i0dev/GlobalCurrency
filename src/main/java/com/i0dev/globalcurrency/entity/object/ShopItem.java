@@ -20,6 +20,7 @@ public class ShopItem {
     public boolean glow;
     public List<String> commands;
     public String requiredPermissionToBuy;
+    public String preventBuyIfHasPermission;
     public int limitPerPlayer;
     public long limitCheckBackMillis;
 }

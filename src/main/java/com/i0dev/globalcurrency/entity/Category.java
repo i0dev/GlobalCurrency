@@ -63,6 +63,7 @@ public class Category extends Entity<Category> {
                         true,
                         MUtil.list("give %player% diamond 1"),
                         "",
+                        "",
                         -1,
                         -1
                 ),
@@ -77,6 +78,7 @@ public class Category extends Entity<Category> {
                         true,
                         MUtil.list("give %player% gold_ingot 1"),
                         "permission.example",
+                        "deny.permission.example",
                         5,
                         259_200_000 // 3 days
                 )

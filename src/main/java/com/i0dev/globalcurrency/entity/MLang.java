@@ -24,6 +24,7 @@ public class MLang extends Entity<MLang> {
     public String youBought = "%prefix% &aYou have purchased %item% for &f%amount% medals";
     public String canOnlyUsePositiveNumbers = "%prefix% &cYou can only use positive numbers";
     public String cantRemoveMoreThanPlayerHas = "%prefix% &cYou can't remove more than the player has, they only have &f%amount%";
+    public String alreadyHasPermission = "%prefix% &cYou already have this permission.";
 
     @Override
     public MLang load(MLang that) {

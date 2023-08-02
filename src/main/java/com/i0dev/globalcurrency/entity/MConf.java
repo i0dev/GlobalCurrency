@@ -18,6 +18,7 @@ public class MConf extends Entity<MConf> {
     }
 
     public List<String> aliasesGlobalCurrency = MUtil.list("medals", "globalcurrency");
+    public boolean makeExample = true;
     public String serverID = "server1";
     public DatabaseInformation databaseInformation = new DatabaseInformation();
     public boolean closeBuyWindowOnPurchase = false;
