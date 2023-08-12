@@ -17,6 +17,7 @@ public class CmdGlobalCurrency extends GlobalCurrencyCommand {
     public CmdGlobalCurrencyRemove cmdGlobalCurrencyRemove = new CmdGlobalCurrencyRemove();
     public CmdGlobalCurrencySet cmdGlobalCurrencySet = new CmdGlobalCurrencySet();
     public CmdGlobalCurrencyShop cmdGlobalCurrencyShop = new CmdGlobalCurrencyShop();
+    public CmdGlobalCurrencyBlackMarket cmdGlobalCurrencyBlackMarket = new CmdGlobalCurrencyBlackMarket();
     public MassiveCommandVersion cmdFactionsVersion = new MassiveCommandVersion(GlobalCurrencyPlugin.get()).setAliases("v", "version").addRequirements(RequirementHasPerm.get(Perm.VERSION));
 
     public static CmdGlobalCurrency get() {

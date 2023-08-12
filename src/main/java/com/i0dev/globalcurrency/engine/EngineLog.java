@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.TimeZone;
 
 public class EngineLog extends Engine {
 
@@ -38,7 +39,7 @@ public class EngineLog extends Engine {
         File file = new File(path);
         FileWriter fr = new FileWriter(file, true);
         Instant instant = Instant.ofEpochMilli(System.currentTimeMillis());
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(instant, TimeZone.getTimeZone("EST").toZoneId());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String dateString = localDateTime.format(formatter);
         System.out.println(string);

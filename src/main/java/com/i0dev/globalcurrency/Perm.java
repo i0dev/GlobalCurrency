@@ -8,6 +8,12 @@ public enum Perm implements Identified {
 
     BASECOMMAND,
 
+    BLACKMARKET,
+    BLACK_MARKET,
+    BLACK_MARKET_SHOP,
+    REFRESH_SHOP,
+    BLACK_MARKET_REFRESH_SHOP,
+
     ADD,
     BALANCE,
     BALANCEOTHERS,

@@ -59,7 +59,8 @@ public class GlobalCurrencyPlugin extends MassivePlugin {
         return new MassiveList<>(
                 MConfColl.class,
                 MLangColl.class,
-                CategoryColl.class
+                CategoryColl.class,
+                BlackMarketDataColl.class
         );
     }
 

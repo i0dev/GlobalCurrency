@@ -26,6 +26,12 @@ public class MLang extends Entity<MLang> {
     public String cantRemoveMoreThanPlayerHas = "%prefix% &cYou can't remove more than the player has, they only have &f%amount%";
     public String alreadyHasPermission = "%prefix% &cYou already have this permission.";
 
+    public String reachedPurchaseLimit = "%prefix% &cThis item has reached the server-wide purchase limit.";
+    public String boughtBlackMarketItem = "%prefix% &aYou have purchased %item% for &f%price% rubies";
+    public String blackMarketShopRefreshedAnnouncement = "%prefix% &aThe black market shop has been refreshed.";
+    public String blackMarketShopDisabled = "%prefix% &cThe black market shop is not currently active.";
+
+
     @Override
     public MLang load(MLang that) {
         super.load(that);
