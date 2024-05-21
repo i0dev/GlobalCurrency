@@ -1,6 +1,7 @@
 package com.i0dev.globalcurrency.cmd;
 
 import com.i0dev.globalcurrency.Perm;
+import com.i0dev.globalcurrency.cmd.type.TypeOfflinePlayer;
 import com.i0dev.globalcurrency.engine.EngineSQL;
 import com.i0dev.globalcurrency.entity.MLang;
 import com.i0dev.globalcurrency.util.Pair;
@@ -8,20 +9,21 @@ import com.i0dev.globalcurrency.util.Utils;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.sender.TypePlayer;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class CmdGlobalCurrencyBalance extends GlobalCurrencyCommand {
 
     public CmdGlobalCurrencyBalance() {
-        this.addParameter(TypePlayer.get(), "player").setDefaultValue(null);
+        this.addParameter(TypeOfflinePlayer.get(), "player").setDefaultValue(null);
         this.addAliases("bal");
         this.addRequirements(RequirementHasPerm.get(Perm.BALANCE));
     }
 
     @Override
     public void perform() throws MassiveException {
-        Player player = this.readArg();
+        OfflinePlayer player = this.readArg();
 
         if (player == null && sender instanceof ConsoleCommandSender) {
             msg("&cYou must specify a player.");

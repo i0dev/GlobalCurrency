@@ -1,6 +1,7 @@
 package com.i0dev.globalcurrency.cmd;
 
 import com.i0dev.globalcurrency.Perm;
+import com.i0dev.globalcurrency.cmd.type.TypeOfflinePlayer;
 import com.i0dev.globalcurrency.engine.EngineLog;
 import com.i0dev.globalcurrency.engine.EngineSQL;
 import com.i0dev.globalcurrency.entity.MLang;
@@ -11,12 +12,13 @@ import com.massivecraft.massivecore.command.Visibility;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
 import com.massivecraft.massivecore.command.type.sender.TypePlayer;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 public class CmdGlobalCurrencySet extends GlobalCurrencyCommand {
 
     public CmdGlobalCurrencySet() {
-        this.addParameter(TypePlayer.get(), "player");
+        this.addParameter(TypeOfflinePlayer.get(), "player");
         this.addParameter(TypeInteger.get(), "amount");
         this.addRequirements(RequirementHasPerm.get(Perm.SET));
         this.setVisibility(Visibility.SECRET);
@@ -24,7 +26,7 @@ public class CmdGlobalCurrencySet extends GlobalCurrencyCommand {
 
     @Override
     public void perform() throws MassiveException {
-        Player player = this.readArgAt(0);
+        OfflinePlayer player = this.readArgAt(0);
         Integer amount = this.readArgAt(1);
 
         if (amount <= 0) {
