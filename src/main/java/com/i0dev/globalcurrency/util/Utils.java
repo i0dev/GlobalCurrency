@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -78,6 +79,16 @@ public class Utils {
     public static void runCommand(String command, Player player) {
         command = command.replace("%player%", player == null ? "unknown" : player.getName());
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+    }
+
+
+    public static boolean isUUID(String arg) {
+        try {
+            UUID.fromString(arg);
+        } catch (IllegalArgumentException exception) {
+            return false;
+        }
+        return true;
     }
 
 }

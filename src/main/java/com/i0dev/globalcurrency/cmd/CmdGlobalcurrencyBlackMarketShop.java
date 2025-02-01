@@ -1,43 +1,28 @@
 package com.i0dev.globalcurrency.cmd;
 
-import com.i0dev.globalcurrency.Perm;
 import com.i0dev.globalcurrency.action.ActionBuyBlackMarketShop;
-import com.i0dev.globalcurrency.engine.EngineLog;
 import com.i0dev.globalcurrency.engine.EngineSQL;
 import com.i0dev.globalcurrency.entity.BlackMarketData;
 import com.i0dev.globalcurrency.entity.MConf;
 import com.i0dev.globalcurrency.entity.MLang;
 import com.i0dev.globalcurrency.entity.object.BlackMarketShopItem;
 import com.i0dev.globalcurrency.util.ItemBuilder;
-import com.i0dev.globalcurrency.util.Pair;
 import com.i0dev.globalcurrency.util.Utils;
 import com.massivecraft.massivecore.MassiveException;
-import com.massivecraft.massivecore.chestgui.ChestAction;
 import com.massivecraft.massivecore.chestgui.ChestGui;
-import com.massivecraft.massivecore.command.Visibility;
-import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.requirement.RequirementIsPlayer;
-import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
-import com.massivecraft.massivecore.command.type.sender.TypePlayer;
 import com.massivecraft.massivecore.util.Txt;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
-public class CmdGlobalCurrencyBlackMarketShop extends GlobalCurrencyCommand {
+public class CmdGlobalcurrencyBlackMarketShop extends GlobalcurrencyCommand {
 
-    public CmdGlobalCurrencyBlackMarketShop() {
+    public CmdGlobalcurrencyBlackMarketShop() {
         this.addRequirements(RequirementIsPlayer.get());
     }
 
@@ -92,7 +77,7 @@ public class CmdGlobalCurrencyBlackMarketShop extends GlobalCurrencyCommand {
         IntStream.range(0, chestGui.getInventory().getSize()).forEach(i -> chestGui.getInventory().setItem(i, new ItemBuilder(cnf.blackMarketShopBorderMaterial)
                 .amount(1)
                 .name(cnf.blackMarketShopBorderName)
-                .lore(cnf.blackMarketShopBorderLore)
+                .setNewLore(cnf.blackMarketShopBorderLore)
                 .addGlow(cnf.blackMarketShopBorderGlow)
         ));
 

@@ -88,6 +88,11 @@ public class EngineSQL extends Engine {
     @SneakyThrows
     public void addAmount(UUID uuid, long amount) {
         reconnect();
+
+        if (uuid == null) {
+            return;
+        }
+
         long currentBalance = getAmount(uuid);
         long newBalance = currentBalance + amount;
         setAmount(uuid, newBalance);

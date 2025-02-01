@@ -11,17 +11,14 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.Visibility;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
-import com.massivecraft.massivecore.command.type.sender.TypePlayer;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
-public class CmdGlobalCurrencyAdd extends GlobalCurrencyCommand {
+public class CmdGlobalcurrencyRemove extends GlobalcurrencyCommand {
 
-    public CmdGlobalCurrencyAdd() {
-        this.addAliases("give");
+    public CmdGlobalcurrencyRemove() {
         this.addParameter(TypeOfflinePlayer.get(), "player");
         this.addParameter(TypeInteger.get(), "amount");
-        this.addRequirements(RequirementHasPerm.get(Perm.ADD));
+        this.addRequirements(RequirementHasPerm.get(Perm.REMOVE));
         this.setVisibility(Visibility.SECRET);
     }
 
@@ -34,17 +31,25 @@ public class CmdGlobalCurrencyAdd extends GlobalCurrencyCommand {
             msg(Utils.prefixAndColor(MLang.get().canOnlyUsePositiveNumbers));
             return;
         }
+        long currentBalance = EngineSQL.get().getAmount(player.getUniqueId());
+        long newAmount = currentBalance - amount;
+        if (newAmount < 0) {
+            msg(Utils.prefixAndColor(MLang.get().cantRemoveMoreThanPlayerHas,
+                            new Pair<>("%amount%", String.valueOf(currentBalance))
+                    )
+            );
+            return;
+        }
 
-        EngineSQL.get().addAmount(player.getUniqueId(), amount);
+        EngineSQL.get().removeAmount(player.getUniqueId(), amount);
 
-        msg(Utils.prefixAndColor(MLang.get().addedToPlayer,
+        msg(Utils.prefixAndColor(MLang.get().removedFromPlayer,
                         new Pair<>("%player%", player.getName()),
                         new Pair<>("%amount%", String.valueOf(amount))
                 )
         );
 
-        EngineLog.get().log(sender.getName() + " has added " + amount + " currency to " + player.getName());
-
+        EngineLog.get().log(sender.getName() + " has removed " + amount + " currency from " + player.getName());
     }
 
 

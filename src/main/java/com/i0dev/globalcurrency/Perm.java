@@ -2,31 +2,34 @@ package com.i0dev.globalcurrency;
 
 import com.massivecraft.massivecore.Identified;
 import com.massivecraft.massivecore.util.PermissionUtil;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.permissions.Permissible;
 
 public enum Perm implements Identified {
 
-    BASECOMMAND,
+    BASECOMMAND("basecommand"),
 
-    BLACKMARKET,
-    BLACK_MARKET,
-    BLACK_MARKET_SHOP,
-    REFRESH_SHOP,
-    BLACK_MARKET_REFRESH_SHOP,
+    BLACKMARKET("blackmarket"),
+    BLACK_MARKET("blackmarket"),
+    BLACK_MARKET_SHOP("blackmarketshop"),
+    REFRESH_SHOP("refreshshop"),
+    BLACK_MARKET_REFRESH_SHOP("blackmarketrefreshshop"),
 
-    ADD,
-    BALANCE,
-    BALANCEOTHERS,
-    REMOVE,
-    SET,
-    SHOP,
+    ADD("add"),
+    BALANCE("balance"),
+    BALANCEOTHERS("balanceothers"),
+    REMOVE("remove"),
+    SET("set"),
+    SHOP("shop"),
 
-    VERSION;
+    IMPORT("import"),
+
+    VERSION("version");
 
     private final String id;
 
-    Perm() {
-        this.id = PermissionUtil.createPermissionId(GlobalCurrencyPlugin.get(), this);
+    Perm(String id) {
+        this.id = "globalcurrency." + id;
     }
 
     @Override
@@ -35,11 +38,20 @@ public enum Perm implements Identified {
     }
 
     public boolean has(Permissible permissible, boolean verboose) {
+
+        if (permissible instanceof ConsoleCommandSender) {
+            return true;
+        }
+
         return PermissionUtil.hasPermission(permissible, this, verboose);
     }
 
     public boolean has(Permissible permissible) {
+
+        if (permissible instanceof ConsoleCommandSender) {
+            return true;
+        }
+
         return PermissionUtil.hasPermission(permissible, this);
     }
-
 }

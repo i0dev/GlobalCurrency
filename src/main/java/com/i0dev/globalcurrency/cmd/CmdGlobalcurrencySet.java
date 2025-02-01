@@ -11,16 +11,14 @@ import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.Visibility;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
-import com.massivecraft.massivecore.command.type.sender.TypePlayer;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
-public class CmdGlobalCurrencyRemove extends GlobalCurrencyCommand {
+public class CmdGlobalcurrencySet extends GlobalcurrencyCommand {
 
-    public CmdGlobalCurrencyRemove() {
+    public CmdGlobalcurrencySet() {
         this.addParameter(TypeOfflinePlayer.get(), "player");
         this.addParameter(TypeInteger.get(), "amount");
-        this.addRequirements(RequirementHasPerm.get(Perm.REMOVE));
+        this.addRequirements(RequirementHasPerm.get(Perm.SET));
         this.setVisibility(Visibility.SECRET);
     }
 
@@ -29,29 +27,20 @@ public class CmdGlobalCurrencyRemove extends GlobalCurrencyCommand {
         OfflinePlayer player = this.readArgAt(0);
         Integer amount = this.readArgAt(1);
 
-        if (amount <= 0) {
+        if (amount < 0) {
             msg(Utils.prefixAndColor(MLang.get().canOnlyUsePositiveNumbers));
             return;
         }
-        long currentBalance = EngineSQL.get().getAmount(player.getUniqueId());
-        long newAmount = currentBalance - amount;
-        if (newAmount < 0) {
-            msg(Utils.prefixAndColor(MLang.get().cantRemoveMoreThanPlayerHas,
-                            new Pair<>("%amount%", String.valueOf(currentBalance))
-                    )
-            );
-            return;
-        }
 
-        EngineSQL.get().removeAmount(player.getUniqueId(), amount);
+        EngineSQL.get().setAmount(player.getUniqueId(), amount);
 
-        msg(Utils.prefixAndColor(MLang.get().removedFromPlayer,
+        msg(Utils.prefixAndColor(MLang.get().setPlayerBalance,
                         new Pair<>("%player%", player.getName()),
                         new Pair<>("%amount%", String.valueOf(amount))
                 )
         );
 
-        EngineLog.get().log(sender.getName() + " has removed " + amount + " currency from " + player.getName());
+        EngineLog.get().log(sender.getName() + " has set " + amount + " currency to " + player.getName());
     }
 
 

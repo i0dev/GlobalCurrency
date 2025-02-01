@@ -1,6 +1,6 @@
 package com.i0dev.globalcurrency.action;
 
-import com.i0dev.globalcurrency.cmd.CmdGlobalCurrencyBlackMarketShop;
+import com.i0dev.globalcurrency.cmd.CmdGlobalcurrencyBlackMarketShop;
 import com.i0dev.globalcurrency.engine.EngineLog;
 import com.i0dev.globalcurrency.engine.EngineSQL;
 import com.i0dev.globalcurrency.entity.BlackMarketData;
@@ -50,7 +50,7 @@ public class ActionBuyBlackMarketShop implements ChestAction {
 
         EngineLog.get().log(player.getName() + " has bought from the black market shop " + item.getId() + " for " + item.getPrice() + " currency");
         BlackMarketData.get().logPurchase(item.getId());
-        CmdGlobalCurrencyBlackMarketShop.reopenInventory(player);
+        CmdGlobalcurrencyBlackMarketShop.reopenInventory(player);
         return true;
     }
 

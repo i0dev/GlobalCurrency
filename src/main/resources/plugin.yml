@@ -8,7 +8,6 @@ description: ${project.description}
 api-version: 1.20
 permissions:
   globalcurrency.basecommand: { description: globalcurrency basecommand, default: false }
-  globalcurrency.add: { description: add currency, default: false }
   globalcurrency.balance: { description: check balance, default: false }
   globalcurrency.balanceothers: { description: check balance of others, default: false }
   globalcurrency.remove: { description: remove currency, default: false }
@@ -17,7 +16,6 @@ permissions:
   globalcurrency.version: { description: check version, default: false }
   globalcurrency.*:
     globalcurrency.basecommand: true
-    globalcurrency.add: true
     globalcurrency.balance: true
     globalcurrency.balanceothers: true
     globalcurrency.remove: true

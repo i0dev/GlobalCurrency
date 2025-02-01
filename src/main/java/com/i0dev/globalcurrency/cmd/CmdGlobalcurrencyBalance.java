@@ -8,14 +8,13 @@ import com.i0dev.globalcurrency.util.Pair;
 import com.i0dev.globalcurrency.util.Utils;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
-import com.massivecraft.massivecore.command.type.sender.TypePlayer;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-public class CmdGlobalCurrencyBalance extends GlobalCurrencyCommand {
+public class CmdGlobalcurrencyBalance extends GlobalcurrencyCommand {
 
-    public CmdGlobalCurrencyBalance() {
+    public CmdGlobalcurrencyBalance() {
         this.addParameter(TypeOfflinePlayer.get(), "player").setDefaultValue(null);
         this.addAliases("bal");
         this.addRequirements(RequirementHasPerm.get(Perm.BALANCE));
@@ -38,11 +37,16 @@ public class CmdGlobalCurrencyBalance extends GlobalCurrencyCommand {
             );
             return;
         }
+        String name = player.getUniqueId().toString();
+        try {
+            name = player.getName();
+        } catch (Exception ignored) {
+        }
 
         if (Perm.BALANCEOTHERS.has(sender, true)) {
             long balance = EngineSQL.get().getAmount(player.getUniqueId());
             msg(Utils.prefixAndColor(MLang.get().playerBalance,
-                            new Pair<>("%player%", player.getName()),
+                            new Pair<>("%player%", name),
                             new Pair<>("%amount%", String.valueOf(balance))
                     )
             );

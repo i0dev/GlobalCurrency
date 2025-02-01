@@ -39,7 +39,7 @@ public class BlackMarketShopItem {
                     .replace("%cost%", String.valueOf(price))
                     .replace("%limit%", String.valueOf(limit - BlackMarketData.get().getPurchaseAmounts(id))));
         }
-        itemBuilder.lore(newLore);
+        itemBuilder.setNewLore(newLore);
         return itemBuilder;
     }
 

@@ -1,6 +1,5 @@
 package com.i0dev.globalcurrency.cmd;
 
-import com.i0dev.globalcurrency.Perm;
 import com.i0dev.globalcurrency.cmd.type.TypeOfflinePlayer;
 import com.i0dev.globalcurrency.engine.EngineLog;
 import com.i0dev.globalcurrency.engine.EngineSQL;
@@ -9,18 +8,14 @@ import com.i0dev.globalcurrency.util.Pair;
 import com.i0dev.globalcurrency.util.Utils;
 import com.massivecraft.massivecore.MassiveException;
 import com.massivecraft.massivecore.command.Visibility;
-import com.massivecraft.massivecore.command.requirement.RequirementHasPerm;
 import com.massivecraft.massivecore.command.type.primitive.TypeInteger;
-import com.massivecraft.massivecore.command.type.sender.TypePlayer;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
-public class CmdGlobalCurrencySet extends GlobalCurrencyCommand {
+public class CmdGlobalcurrencyAdd extends GlobalcurrencyCommand {
 
-    public CmdGlobalCurrencySet() {
+    public CmdGlobalcurrencyAdd() {
         this.addParameter(TypeOfflinePlayer.get(), "player");
         this.addParameter(TypeInteger.get(), "amount");
-        this.addRequirements(RequirementHasPerm.get(Perm.SET));
         this.setVisibility(Visibility.SECRET);
     }
 
@@ -34,16 +29,14 @@ public class CmdGlobalCurrencySet extends GlobalCurrencyCommand {
             return;
         }
 
-        EngineSQL.get().setAmount(player.getUniqueId(), amount);
+        EngineSQL.get().addAmount(player.getUniqueId(), amount);
 
-        msg(Utils.prefixAndColor(MLang.get().setPlayerBalance,
+        msg(Utils.prefixAndColor(MLang.get().addedToPlayer,
                         new Pair<>("%player%", player.getName()),
                         new Pair<>("%amount%", String.valueOf(amount))
                 )
         );
 
-        EngineLog.get().log(sender.getName() + " has set " + amount + " currency to " + player.getName());
+        EngineLog.get().log(sender.getName() + " has added " + amount + " currency to " + player.getName());
     }
-
-
 }

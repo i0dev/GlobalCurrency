@@ -8,7 +8,6 @@ import com.i0dev.globalcurrency.entity.MConf;
 import com.i0dev.globalcurrency.entity.object.ConfirmationInventory;
 import com.i0dev.globalcurrency.entity.object.ShopInventory;
 import com.i0dev.globalcurrency.entity.object.ShopItem;
-import com.i0dev.globalcurrency.util.Glow;
 import com.i0dev.globalcurrency.util.ItemBuilder;
 import com.massivecraft.massivecore.Engine;
 import com.massivecraft.massivecore.chestgui.ChestGui;
@@ -43,7 +42,7 @@ public class EngineInventory extends Engine {
         IntStream.range(0, chestGui.getInventory().getSize()).forEach(i -> chestGui.getInventory().setItem(i, new ItemBuilder(invConf.borderMaterial)
                 .amount(1)
                 .name(invConf.borderName)
-                .lore(invConf.borderLore)
+                .setNewLore(invConf.borderLore)
                 .addGlow(invConf.borderGlow)
         ));
 
@@ -59,16 +58,18 @@ public class EngineInventory extends Engine {
         chestGui.getInventory().setItem(invConf.informationItemSlot, new ItemBuilder(invConf.informationItemMaterial)
                 .amount(1)
                 .name(invConf.informationItemName)
-                .lore(invConf.informationItemLore)
-                .enchantment(invConf.informationItemGlow ? Glow.getGlow() : null)
+                .hideAllAttributes()
+                .setNewLore(invConf.informationItemLore)
+                .addGlow(invConf.informationItemGlow)
         );
 
         for (Category category : CategoryColl.get().getAll()) {
             chestGui.getInventory().setItem(category.slot, new ItemBuilder(category.material)
                     .amount(1)
+                    .hideAllAttributes()
                     .name(category.displayName)
-                    .lore(category.lore)
-                    .enchantment(category.glow ? Glow.getGlow() : null)
+                    .setNewLore(category.lore)
+                    .addGlow(category.glow)
             );
             chestGui.setAction(category.slot, new ActionChoseCategory(category.getId()));
         }
@@ -85,10 +86,11 @@ public class EngineInventory extends Engine {
 
         chestGui.getInventory().setItem(cnf.itemSlot, new ItemBuilder(item.material)
                 .amount(1)
+                .hideAllAttributes()
                 .name(item.displayName)
-                .lore(item.lore)
-                .enchantment(item.glow ? Glow.getGlow() : null));
-
+                .setNewLore(item.lore)
+                .addGlow(cnf.confirmItemGlow)
+        );
         List<String> confirmLore = new ArrayList<>();
         cnf.confirmItemLore.forEach(s -> confirmLore.add(s
                 .replace("%item_price%", String.valueOf(item.price))
@@ -98,16 +100,18 @@ public class EngineInventory extends Engine {
         chestGui.getInventory().setItem(cnf.confirmItemSlot, new ItemBuilder(cnf.confirmItemMaterial)
                 .amount(1)
                 .name(cnf.confirmItemName)
-                .lore(confirmLore)
-                .enchantment(cnf.confirmItemGlow ? Glow.getGlow() : null)
+                .hideAllAttributes()
+                .setNewLore(confirmLore)
+                .addGlow(cnf.confirmItemGlow)
         );
         chestGui.setAction(cnf.confirmItemSlot, new ActionConfirmPurchaseItem(item, categoryId));
 
         chestGui.getInventory().setItem(cnf.cancelItemSlot, new ItemBuilder(cnf.cancelItemMaterial)
                 .amount(1)
                 .name(cnf.cancelItemName)
-                .lore(cnf.cancelItemLore)
-                .enchantment(cnf.cancelItemGlow ? Glow.getGlow() : null)
+                .hideAllAttributes()
+                .setNewLore(cnf.cancelItemLore)
+                .addGlow(cnf.confirmItemGlow)
         );
         chestGui.setAction(cnf.cancelItemSlot, inventoryClickEvent -> {
             inventoryClickEvent.getWhoClicked().openInventory(getCategoryInventoryById(categoryId));
@@ -132,8 +136,9 @@ public class EngineInventory extends Engine {
             chestGui.getInventory().setItem(item.slot, new ItemBuilder(item.material)
                     .amount(1)
                     .name(item.displayName)
-                    .lore(item.lore)
-                    .enchantment(item.glow ? Glow.getGlow() : null)
+                    .hideAllAttributes()
+                    .setNewLore(item.lore)
+                    .addGlow(item.glow)
             );
             chestGui.setAction(item.slot, inventoryClickEvent -> {
                 inventoryClickEvent.getWhoClicked().openInventory(getConfirmationGUI(categoryId, item.getId()));
@@ -143,9 +148,10 @@ public class EngineInventory extends Engine {
 
         chestGui.getInventory().setItem(category.backButtonSlot, new ItemBuilder(MConf.get().backToCategoriesItem.material)
                 .amount(1)
+                .hideAllAttributes()
                 .name(MConf.get().backToCategoriesItem.displayName)
-                .lore(MConf.get().backToCategoriesItem.lore)
-                .enchantment(MConf.get().backToCategoriesItem.glow ? Glow.getGlow() : null)
+                .setNewLore(MConf.get().backToCategoriesItem.lore)
+                .addGlow(MConf.get().backToCategoriesItem.glow)
         );
 
         chestGui.setAction(category.backButtonSlot, inventoryClickEvent -> {

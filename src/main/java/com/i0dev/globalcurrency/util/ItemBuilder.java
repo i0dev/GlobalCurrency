@@ -1,18 +1,19 @@
 package com.i0dev.globalcurrency.util;
 
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.material.MaterialData;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This is a chainable builder for {@link ItemStack}s in {@link Bukkit}
@@ -71,62 +72,40 @@ public class ItemBuilder extends ItemStack {
     }
 
     /**
-     * Adds a new list to the lore of the {@link ItemStack}
-     *
-     * @param text the new line to add
-     * @return this builder for chaining
-     * @since 1.0
-     */
-    public ItemBuilder setLore(final List<String> text) {
-        final ItemMeta meta = getItemMeta();
-        List<String> lore = meta.getLore();
-        if (lore == null) {
-            lore = new ArrayList<>();
-        }
-        for (String s : text) {
-            lore.add(Utils.color(s));
-        }
-        meta.setLore(lore);
-        setItemMeta(meta);
-        return this;
-    }
-
-    /**
-     * Adds a new line to the lore of the {@link ItemStack}
-     *
-     * @param text the new line to add
-     * @return this builder for chaining
-     * @since 1.0
-     */
-    public ItemBuilder lore(final String text) {
-        final ItemMeta meta = getItemMeta();
-        List<String> lore = meta.getLore();
-        if (lore == null) {
-            lore = new ArrayList<>();
-        }
-        lore.add(Utils.color(text));
-        meta.setLore(lore);
-        setItemMeta(meta);
-        return this;
-    }
-
-    /**
      * Adds a new line to the lore of the {@link ItemStack}
      *
      * @param texts the new line to add
      * @return this builder for chaining
      * @since 1.0
      */
-    public ItemBuilder lore(final List<String> texts) {
+    public ItemBuilder setNewLore(final List<String> texts) {
         final ItemMeta meta = getItemMeta();
-        List<String> lore = meta.getLore();
+        List<Component> lore = meta.lore();
         if (lore == null) {
             lore = new ArrayList<>();
         }
-        for (String s : texts) {
-            lore.add(Utils.color(s));
+        if (texts != null) {
+            for (String s : texts) {
+                lore.add(Component.text(Utils.color(s)));
+            }
         }
-        meta.setLore(lore);
+
+        meta.lore(lore);
+        setItemMeta(meta);
+        return this;
+    }
+
+    public ItemBuilder hideAllAttributes() {
+        ItemMeta meta = getItemMeta();
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
+        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        meta.addItemFlags(ItemFlag.HIDE_DYE);
+        meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
+        meta.addItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
         setItemMeta(meta);
         return this;
     }
@@ -140,38 +119,6 @@ public class ItemBuilder extends ItemStack {
      */
     public ItemBuilder durability(final int durability) {
         setDurability((short) durability);
-        return this;
-    }
-
-    public ItemBuilder hideAllAttributes() {
-        hideAllAttributes(this);
-        return this;
-    }
-
-    public static void hideAllAttributes(ItemStack item) {
-        ItemMeta meta = item.getItemMeta();
-        if (meta == null) return;
-        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        meta.addItemFlags(ItemFlag.HIDE_ARMOR_TRIM);
-        meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        meta.addItemFlags(ItemFlag.HIDE_PLACED_ON);
-        meta.addItemFlags(ItemFlag.HIDE_DYE);
-        meta.addItemFlags(ItemFlag.HIDE_DESTROYS);
-        meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-    }
-
-    /**
-     * Changes the data of the {@link ItemStack}
-     *
-     * @param data the new data to set
-     * @return this builder for chaining
-     * @since 1.0
-     */
-    @SuppressWarnings("deprecation")
-    public ItemBuilder data(final int data) {
-        setData(new MaterialData(getType(), (byte) data));
         return this;
     }
 
@@ -274,7 +221,15 @@ public class ItemBuilder extends ItemStack {
     }
 
     public ItemBuilder addGlow(final boolean glow) {
-        if (glow) addUnsafeEnchantment(Glow.getGlow(), 1);
+        ItemMeta meta = getItemMeta();
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        pdc.set(NamespacedKey.minecraft("enchantment_glint_override"), PersistentDataType.BOOLEAN, glow);
+        if (glow) {
+            meta.addEnchant(Enchantment.INFINITY, 1, true);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            meta.addItemFlags(ItemFlag.HIDE_STORED_ENCHANTS);
+            setItemMeta(meta);
+        }
         return this;
     }
 
